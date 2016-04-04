@@ -31,8 +31,8 @@ public class playerMovement : MonoBehaviour
     private GameObject _nextlevel;
    private GameObject _stairs;
    private GameObject _sekret;
-    private AudioSource jumpSound;
-    private AudioSource pickupCoinSound;
+ //   private AudioSource jumpSound;
+ //   private AudioSource pickupCoinSound;
     
     //enum
     enum PlayerState
@@ -48,8 +48,8 @@ public class playerMovement : MonoBehaviour
         scoreObj = GameObject.FindGameObjectWithTag("point");
         lifeObj = GameObject.FindGameObjectWithTag("lifescore");
         animator = GetComponent<Animator>();
-	    jumpSound = GetComponents<AudioSource>()[0];
-	    pickupCoinSound = GetComponents<AudioSource>()[1];
+//	    jumpSound = GetComponents<AudioSource>()[0];
+//	    pickupCoinSound = GetComponents<AudioSource>()[1];
         coinObj = GameObject.FindGameObjectWithTag("coin");
 	    diamObj = GameObject.FindGameObjectWithTag("Diamond");
         fireObj = GameObject.FindGameObjectWithTag("fire");
@@ -117,7 +117,7 @@ foreach (GameObject go in objects)
             else if (isJumping == true)
             {
                 animator.SetBool("IsWalking", true);
-                jumpSound.Play();
+           //     jumpSound.Play();
                 GetComponent<Rigidbody2D>().velocity = new Vector2(0,0);
                 GetComponent<Rigidbody2D>().AddForce(new Vector2(0, jumpforce));
                 timestamp = Time.time + 10.0;

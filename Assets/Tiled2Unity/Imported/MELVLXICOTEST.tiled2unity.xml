@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <!--Tiled2Unity generated xml data-->
 <!--Do not modify by hand-->
-<!--Last exported: 4/4/2016 11:11:05 AM-->
+<!--Last exported: 4/4/2016 11:25:12 AM-->
 <Tiled2Unity version="1.0.4.2">
   <AssignMaterial mesh="mesh_0001" material="5" />
   <AssignMaterial mesh="mesh_0002" material="1" />
@@ -14,7 +14,9 @@
           <Path>2305,-385 1535,-385 1535,-511 2305,-511</Path>
           <Path>3071,-1023 4865,-1023 4865,-897 3071,-897</Path>
           <Path>3071,-1151 4865,-1151 4865,-1025 3071,-1025</Path>
+          <Path>1024,-1920 511,-1920 511,-2048 1024,-2048</Path>
           <Path>1535,-2047 4225,-2047 4225,-1921 1535,-1921</Path>
+          <Path>384,-2176 -1,-2176 -1,-2304 384,-2304</Path>
         </PolygonCollider2D>
       </GameObject>
     </GameObject>
