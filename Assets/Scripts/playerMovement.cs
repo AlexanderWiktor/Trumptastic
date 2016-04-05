@@ -31,7 +31,7 @@ public class playerMovement : MonoBehaviour
     private GameObject _nextlevel;
    private GameObject _stairs;
    private GameObject _sekret;
- //   private AudioSource jumpSound;
+    private AudioSource sources;
  //   private AudioSource pickupCoinSound;
     
     //enum
@@ -48,12 +48,12 @@ public class playerMovement : MonoBehaviour
         scoreObj = GameObject.FindGameObjectWithTag("point");
         lifeObj = GameObject.FindGameObjectWithTag("lifescore");
         animator = GetComponent<Animator>();
-//	    jumpSound = GetComponents<AudioSource>()[0];
 //	    pickupCoinSound = GetComponents<AudioSource>()[1];
         coinObj = GameObject.FindGameObjectWithTag("coin");
 	    diamObj = GameObject.FindGameObjectWithTag("Diamond");
         fireObj = GameObject.FindGameObjectWithTag("fire");
 	    obsObj = GameObject.FindGameObjectWithTag("ground");
+        sources = GetComponents<AudioSource>()[0];
 	    _hearthObj = GameObject.FindGameObjectWithTag("hearth");
 	    _keyY = GameObject.FindGameObjectWithTag("keyY");
 	    _doorY = GameObject.FindGameObjectWithTag("doorY");
@@ -101,12 +101,10 @@ foreach (GameObject go in objects)
         {
                         GetComponent<Rigidbody2D>().isKinematic = false;
         }
-	    if (Input.GetButtonDown("Fire1"))
+	    if (Input.GetButtonDown("Fire1")||Input.GetKeyDown(KeyCode.W))
 	    {
 	       if (isGrounded == true)
 	        {
-
-
 	            animator.SetBool("IsWalking", true);
                 GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
                 GetComponent<Rigidbody2D>().AddForce(new Vector2(0, jumpforce));
@@ -191,6 +189,7 @@ foreach (GameObject go in objects)
         if (other.gameObject.tag == "ground")
         {
             isGrounded = true;
+            sources.Play();
             isJumping = false;
         }
         if (other.gameObject.tag == "hearth")
