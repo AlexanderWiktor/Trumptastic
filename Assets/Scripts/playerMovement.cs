@@ -12,7 +12,7 @@ public class playerMovement : MonoBehaviour
     public float jumpforce;
     public float hitforce;
     //things for code
-    double timestamp = 10.0;
+    double timestamp = 0.1;
     private bool isGrounded;
     private bool isJumping;
     private bool hasYkey;
@@ -108,29 +108,30 @@ foreach (GameObject go in objects)
                 if (isGrounded == true)
 	        {
                     animator.SetBool("IsWalking", false);
-                    animator.SetBool("IsTired", false);
                     animator.SetBool("IsJumping", true);
+                    animator.SetBool("IsTired", false);
                     GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
                 GetComponent<Rigidbody2D>().AddForce(new Vector2(0, jumpforce));
-	            timestamp = Time.time + 10.0;
+	            timestamp = Time.time + 1.0;
 	            isJumping = true;
 	            isGrounded = false;
 	        }
                 //the doublejump
                 else if (isJumping == true)
             {
-                    animator.SetBool("IsWalking", false);
-                    animator.SetBool("IsTired", false);
                     animator.SetBool("IsJumping", true);
+                    animator.SetBool("IsTired", false);
                     //     jumpSound.Play();
                     GetComponent<Rigidbody2D>().velocity = new Vector2(0,0);
                 GetComponent<Rigidbody2D>().AddForce(new Vector2(0, jumpforce));
-                timestamp = Time.time + 10.0;
+                timestamp = Time.time + 0.1;
                 isJumping = false;
             }
-                else
+                else if (isGrounded == true)
                 {
-                    animator.SetBool("IsJumping", false);
+                    
+                    animator.SetBool("IsWalking", true);
+
                 }
             }
             // if (Input.GetAxis("Horizontal") != 0)
@@ -148,41 +149,53 @@ foreach (GameObject go in objects)
             //  }
             if(Input.GetKey(KeyCode.D))
             {
-                animator.SetBool("IsWalking", true);
-                animator.SetBool("IsTired", false);
-                animator.SetBool("IsJumping", false);
+                
                 transform.Translate(Vector2.right * 6f * Time.deltaTime);
                 transform.eulerAngles = new Vector2(0, 0);
+                timestamp = Time.time + 0.1;
+
+
+                if (isGrounded == true)
+                {
+                    animator.SetBool("IsWalking", true);
+                   
+                    animator.SetBool("IsJumping", false);
+                    animator.SetBool("IsTired", false);
+                }
             }
 
-            else
-            {
-                    animator.SetBool("IsTired", true);
-                }
+            
             if (Input.GetKey(KeyCode.A))
             {
-                animator.SetBool("IsWalking", true);
-                animator.SetBool("IsTired", false);
-                animator.SetBool("IsJumping", false);
+               
                 transform.Translate(Vector2.right * 6f * Time.deltaTime);
                 transform.eulerAngles = new Vector2(0, 180);
-            }
-            else
-            {
-	        animator.SetBool("IsTired", true);
-	    }
-	    if (Time.time >= timestamp)
+                timestamp = Time.time + 0.1;
+
+
+                if (isGrounded == true)
+                    {
+                        animator.SetBool("IsWalking", true);
+                        
+                        animator.SetBool("IsJumping", false);
+                    animator.SetBool("IsTired", false);
+                }
+                }
+           
+	    if (Time.time >= timestamp && isGrounded == true)
 	    {
           
             animator.SetBool("IsTired",true);
-        }
-        else
-	    {
+                animator.SetBool("IsWalking", false);
+                animator.SetBool("IsJumping", false);
+            }
+            // else
+            //  {
             //animator.SetBool("IsWalking", false);
-            animator.SetBool("IsTired", false);
+            //  animator.SetBool("IsTired", false);
 
-        }
-        if (life<=0 || Input.GetButtonDown("Fire3"))
+            // }
+            if (life<=0 || Input.GetButtonDown("Fire3"))
         {
             Scene scene = SceneManager.GetActiveScene();
             SceneManager.LoadScene(scene.name);
