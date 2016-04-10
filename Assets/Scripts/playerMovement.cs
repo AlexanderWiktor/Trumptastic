@@ -32,8 +32,9 @@ public class playerMovement : MonoBehaviour
    private GameObject _stairs;
    private GameObject _sekret;
     private AudioSource sources;
- //   private AudioSource pickupCoinSound;
-    
+    //   private AudioSource pickupCoinSound;
+    private bool facingRight = true;
+
     //enum
     enum PlayerState
     {
@@ -103,34 +104,72 @@ foreach (GameObject go in objects)
         }
 	    if (Input.GetButtonDown("Fire1")||Input.GetKeyDown(KeyCode.W))
 	    {
-	       if (isGrounded == true)
+                //first jump   
+                if (isGrounded == true)
 	        {
-	            animator.SetBool("IsWalking", true);
-                GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+                    animator.SetBool("IsWalking", false);
+                    animator.SetBool("IsTired", false);
+                    animator.SetBool("IsJumping", true);
+                    GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
                 GetComponent<Rigidbody2D>().AddForce(new Vector2(0, jumpforce));
 	            timestamp = Time.time + 10.0;
 	            isJumping = true;
 	            isGrounded = false;
 	        }
-            else if (isJumping == true)
+                //the doublejump
+                else if (isJumping == true)
             {
-                animator.SetBool("IsWalking", true);
-           //     jumpSound.Play();
-                GetComponent<Rigidbody2D>().velocity = new Vector2(0,0);
+                    animator.SetBool("IsWalking", false);
+                    animator.SetBool("IsTired", false);
+                    animator.SetBool("IsJumping", true);
+                    //     jumpSound.Play();
+                    GetComponent<Rigidbody2D>().velocity = new Vector2(0,0);
                 GetComponent<Rigidbody2D>().AddForce(new Vector2(0, jumpforce));
                 timestamp = Time.time + 10.0;
                 isJumping = false;
             }
-        }
-	    if (Input.GetAxis("Horizontal") != 0)
-	    {
-	        animator.SetBool("IsWalking",true);
-            transform.position += new Vector3(Input.GetAxis("Horizontal") * speed, 0, 0);
-	        timestamp = Time.time + 10.0;
-	    }
-	    else
-	    {
-	        animator.SetBool("IsWalking", false);
+                else
+                {
+                    animator.SetBool("IsJumping", false);
+                }
+            }
+            // if (Input.GetAxis("Horizontal") != 0)
+            //   {
+            //  animator.SetBool("IsWalking",true);
+            //  transform.position += new Vector3(Input.GetAxis("Horizontal") * speed, 0, 0);
+            // timestamp = Time.time + 10.0;
+            //   if (speed > 0 && !facingRight)
+            // ... flip the player.
+            //   Flip();
+            // Otherwise if the input is moving the player left and the player is facing right...
+            //   else if (speed < 0 && facingRight)
+            // ... flip the player.
+            //    Flip();
+            //  }
+            if(Input.GetKey(KeyCode.D))
+            {
+                animator.SetBool("IsWalking", true);
+                animator.SetBool("IsTired", false);
+                animator.SetBool("IsJumping", false);
+                transform.Translate(Vector2.right * 6f * Time.deltaTime);
+                transform.eulerAngles = new Vector2(0, 0);
+            }
+
+            else
+            {
+                    animator.SetBool("IsTired", true);
+                }
+            if (Input.GetKey(KeyCode.A))
+            {
+                animator.SetBool("IsWalking", true);
+                animator.SetBool("IsTired", false);
+                animator.SetBool("IsJumping", false);
+                transform.Translate(Vector2.right * 6f * Time.deltaTime);
+                transform.eulerAngles = new Vector2(0, 180);
+            }
+            else
+            {
+	        animator.SetBool("IsTired", true);
 	    }
 	    if (Time.time >= timestamp)
 	    {
@@ -153,6 +192,7 @@ foreach (GameObject go in objects)
             transform.position += new Vector3(0, Input.GetAxis("Vertical") * speed, 0);
         
         }
+
         }      
     }
     void OnTriggerEnter2D(Collider2D other)
@@ -233,5 +273,17 @@ foreach (GameObject go in objects)
         }
     }
 
+    private void Flip()
+    {
+        // Switch the way the player is labelled as facing.
+        facingRight = !facingRight;
 
+        // Multiply the player's x local scale by -1.
+        Vector3 theScale = transform.localScale;
+        theScale.x *= -1;
+        transform.localScale = theScale;
+    }
 }
+
+
+
