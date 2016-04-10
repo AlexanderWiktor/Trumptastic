@@ -150,7 +150,7 @@ foreach (GameObject go in objects)
             if(Input.GetKey(KeyCode.D))
             {
                 
-                transform.Translate(Vector2.right * 6f * Time.deltaTime);
+                transform.Translate(Vector2.right * speed * Time.deltaTime);
                 transform.eulerAngles = new Vector2(0, 0);
                 timestamp = Time.time + 0.1;
 
@@ -168,7 +168,7 @@ foreach (GameObject go in objects)
             if (Input.GetKey(KeyCode.A))
             {
                
-                transform.Translate(Vector2.right * 6f * Time.deltaTime);
+                transform.Translate(Vector2.right * speed * Time.deltaTime);
                 transform.eulerAngles = new Vector2(0, 180);
                 timestamp = Time.time + 0.1;
 
