@@ -31,6 +31,7 @@ public class playerMovement : MonoBehaviour
     private GameObject _nextlevel;
    private GameObject _stairs;
    private GameObject _sekret;
+   private GameObject _springObj;
     private AudioSource sources;
     //   private AudioSource pickupCoinSound;
     private bool facingRight = true;
@@ -59,6 +60,7 @@ public class playerMovement : MonoBehaviour
 	    _keyY = GameObject.FindGameObjectWithTag("keyY");
 	    _doorY = GameObject.FindGameObjectWithTag("doorY");
         _nextlevel = GameObject.FindGameObjectWithTag("nextlevel");
+        _springObj = GameObject.FindGameObjectWithTag("spring");
         _sekret = GameObject.FindGameObjectWithTag("sekret");
         state = PlayerState.NORMAL;
         _stairs = GameObject.FindGameObjectWithTag("stairs");
@@ -112,7 +114,7 @@ foreach (GameObject go in objects)
                     animator.SetBool("IsTired", false);
                     GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
                 GetComponent<Rigidbody2D>().AddForce(new Vector2(0, jumpforce));
-	            timestamp = Time.time + 1.0;
+	            timestamp = Time.time + 0.1;
 	            isJumping = true;
 	            isGrounded = false;
 	        }
@@ -276,7 +278,11 @@ foreach (GameObject go in objects)
         {
             state = PlayerState.EGG;
         }
-       
+       if (other.gameObject.tag == "spring")
+       {
+     GetComponent<Rigidbody2D>().AddForce(new Vector2(0, speedup));
+
+       }
     }
     void OnTriggerExit2D(Collider2D other)
     {
