@@ -280,6 +280,7 @@ foreach (GameObject go in objects)
         }
        if (other.gameObject.tag == "spring")
        {
+     GetComponent<Rigidbody2D>().velocity = new Vector2(0,0);
      GetComponent<Rigidbody2D>().AddForce(new Vector2(0, speedup));
 
        }
