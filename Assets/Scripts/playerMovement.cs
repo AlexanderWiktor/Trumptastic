@@ -267,7 +267,7 @@ foreach (GameObject go in objects)
         }
         if (other.gameObject.tag == "nextlevel")
         {
-             Application.LoadLevel ("second");
+             SceneManager.LoadScene ("second");
         }
         if (other.gameObject.tag == "stairs")
         {

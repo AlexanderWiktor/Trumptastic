@@ -6,6 +6,9 @@ public class platformUD : MonoBehaviour {
 public float speed;
 public float maxY;
 public float minY;
+
+protected bool paused;
+
 enum Direction
 {
     UP, DOWN
@@ -18,6 +21,7 @@ state = Direction.UP;
 	
 	// Update is called once per frame
 	void Update () {
+       if(!paused){
 if (state == Direction.UP){
     
 if (transform.position.y>maxY)
@@ -44,4 +48,12 @@ state = Direction.UP;
     }
 }
 	}
+}
+
+void OnPauseGame () {
+paused = true;
+}
+void OnResumeGame () {
+paused = false;
+}
 }

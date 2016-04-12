@@ -6,6 +6,9 @@ public class platformLF : MonoBehaviour {
 public float speed;
 public float maxX;
 public float minX;
+
+protected bool paused;
+
 enum Direction
 {
    LEFT, RIGHT
@@ -18,6 +21,7 @@ state = Direction.LEFT;
 	
 	// Update is called once per frame
 	void Update () {
+       if(!paused){
 if (state == Direction.RIGHT){
     
 if (transform.position.x>maxX)
@@ -42,6 +46,12 @@ state = Direction.RIGHT;
            transform.Translate(Vector2.right * -speed * Time.deltaTime);
 
     }
-}
+       }}
 	}
+void OnPauseGame () {
+paused = true;
+}
+void OnResumeGame () {
+paused = false;
+}
 }
