@@ -104,7 +104,7 @@ foreach (GameObject go in objects)
         {
                         GetComponent<Rigidbody2D>().isKinematic = false;
         }
-	    if (Input.GetButtonDown("Fire1")||Input.GetKeyDown(KeyCode.W))
+	    if (Input.GetKeyDown(KeyCode.Space)||Input.GetKeyDown(KeyCode.W))
 	    {
                 //first jump   
                 if (isGrounded == true)
