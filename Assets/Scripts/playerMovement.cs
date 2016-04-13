@@ -11,6 +11,7 @@ public class playerMovement : MonoBehaviour
     public float speedup;
     public float jumpforce;
     public float hitforce;
+    public float minY;
     //things for code
     double timestamp = 0.1;
     private bool isGrounded;
@@ -109,6 +110,7 @@ foreach (GameObject go in objects)
                 //first jump   
                 if (isGrounded == true)
 	        {
+                Debug.Log("ffskurwa");
                     animator.SetBool("IsWalking", false);
                     animator.SetBool("IsJumping", true);
                     animator.SetBool("IsTired", false);
@@ -197,7 +199,7 @@ foreach (GameObject go in objects)
             //  animator.SetBool("IsTired", false);
 
             // }
-            if (life<=0 || Input.GetButtonDown("Fire3"))
+            if (life<=0 ||Input.GetKeyDown(KeyCode.R))
         {
             Scene scene = SceneManager.GetActiveScene();
             SceneManager.LoadScene(scene.name);
@@ -208,7 +210,12 @@ foreach (GameObject go in objects)
         
         }
 
-        }      
+        } 
+        if(transform.position.y<minY)
+        {
+            Scene scene = SceneManager.GetActiveScene();
+            SceneManager.LoadScene(scene.name);
+        }     
     }
     void OnTriggerEnter2D(Collider2D other)
     {

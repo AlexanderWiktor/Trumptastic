@@ -56,7 +56,7 @@ public class Weapon : MonoBehaviour {
         }
     }
     void Effect()
-    {
+    {   
         Instantiate(BulletTrailPrefab, firePoint.position, firePoint.rotation);
     }
 }
