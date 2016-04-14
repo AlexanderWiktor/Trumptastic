@@ -12,7 +12,10 @@ public class playerMovement : MonoBehaviour
     public float jumpforce;
     public float hitforce;
     public float minY;
+    private string End;
      public AudioSource[] sources = new AudioSource[1];
+     public Transform LastMessagePrefab;
+     Transform last;
  //public GameObject playlistObj;    
 
     //things for code
@@ -23,10 +26,11 @@ public class playerMovement : MonoBehaviour
     private bool onStairs;
     //AudioSource
      AudioSource jumpSound;
-
+     AudioSource firedSound;
     //objects
     private Animator animator;
     private GameObject scoreObj;
+    private GameObject _lastmassage;
     private GameObject coinObj;
     private GameObject diamObj;
     private GameObject fireObj;
@@ -40,6 +44,7 @@ public class playerMovement : MonoBehaviour
    private GameObject _sekret;
    private GameObject _springObj;
    private GameObject _enemy;
+   private GameObject _checkpoint;
     
     //   private AudioSource pickupCoinSound;
     private bool facingRight = true;
@@ -64,7 +69,8 @@ public class playerMovement : MonoBehaviour
         fireObj = GameObject.FindGameObjectWithTag("fire");
 	    obsObj = GameObject.FindGameObjectWithTag("ground");
         sources = GetComponents<AudioSource>();
-        jumpSound = sources[2];
+        jumpSound = sources[1];
+        firedSound = sources[2];
 	    _hearthObj = GameObject.FindGameObjectWithTag("hearth");
 	    _keyY = GameObject.FindGameObjectWithTag("keyY");
 	    _doorY = GameObject.FindGameObjectWithTag("doorY");
@@ -73,6 +79,9 @@ public class playerMovement : MonoBehaviour
         _sekret = GameObject.FindGameObjectWithTag("sekret");
         state = PlayerState.NORMAL;
         _stairs = GameObject.FindGameObjectWithTag("stairs");
+        _checkpoint = GameObject.FindGameObjectWithTag("checkpoint");
+        last = transform.FindChild("last");
+        _lastmassage = GameObject.FindGameObjectWithTag("LastMassage");
     }
 
     // Update is called once per frame
@@ -221,8 +230,17 @@ foreach (GameObject go in objects)
         } 
         if(transform.position.y<minY)
         {
+            if(life>1)
+            {
+                transform.position = new Vector3(41,-11,transform.position.z);
+                life--;
+                lifeObj.GetComponent<TextMesh>().text ="" +life;
+
+            }
+            else{
             Scene scene = SceneManager.GetActiveScene();
             SceneManager.LoadScene(scene.name);
+            }
         }     
     }
     void OnTriggerEnter2D(Collider2D other)
@@ -241,13 +259,13 @@ foreach (GameObject go in objects)
         {
             
             life--;
-            lifeObj.GetComponent<TextMesh>().text = "Lives: " + life;
+            lifeObj.GetComponent<TextMesh>().text = ""+life;
             isGrounded = true;
         }
         if (other.gameObject.tag == "enemy")
         {
             life--;
-        //    lifeObj.GetComponent<TextMesh>().text = "Lives: " + life;
+            lifeObj.GetComponent<TextMesh>().text = ""+ life;
             isGrounded = true;
         }
         if (other.gameObject.tag == "ground")
@@ -259,7 +277,7 @@ foreach (GameObject go in objects)
         if (other.gameObject.tag == "hearth")
         {
             life++;
-            lifeObj.GetComponent<TextMesh>().text = "Lives: " + life;
+            lifeObj.GetComponent<TextMesh>().text ="" +life;
 
         }
         if (other.gameObject.tag == "keyY")
@@ -322,6 +340,21 @@ foreach (GameObject go in objects)
           i = 1;
        }
         transform.position = new Vector3(teleportStorage[0],teleportStorage[1],transform.position.z);
+    }
+    void DieSound()
+    {
+        firedSound.Play();
+    }
+    void ShowScore()
+    {
+        {
+            Instantiate(LastMessagePrefab,last.position,last.rotation);
+           _lastmassage.GetComponent<TextMesh>().text = "Your score is " + score + " of the maximum 23. \n Press R to Play Again";
+
+           //End = "You got"+score+" out of 18 available. Press R to Play Again";
+      //      End = "You got"+score+" out of 18 available. Press R to Play Again";
+         
+     }
     }
 }
 

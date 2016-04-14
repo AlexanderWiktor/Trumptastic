@@ -8,18 +8,22 @@ private GameObject _bullet;
 public float speed;
 public float leftX;
 public float rightX;
-    public int life = 4;
+public int life = 4;
+public Transform votePrefab;
+//private AudioSource hitSound;
     private enum Snailstate
 {
  LEFT, RIGHT
 }
 private Snailstate state;
+Transform dropPoint;
 	// Use this for initialization
 	void Start () {
 	_player = GameObject.FindGameObjectWithTag("Player");
     _bullet = GameObject.FindGameObjectWithTag("bullet");
  transform.position += new Vector3(speed, 0, 0);
-
+ dropPoint = transform.FindChild("dropper");
+//hitSound = GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
@@ -41,10 +45,16 @@ state = Snailstate.LEFT;
             transform.Translate(Vector2.right * speed * Time.deltaTime);
                 transform.eulerAngles = new Vector2(0, 0);
         }
-
+/***if(life==2)
+{
+    hitSound.Play();
+}***/
         if (life <= 0)
         {
             Destroy(this.gameObject);
+            _player.SendMessage("DieSound",SendMessageOptions.DontRequireReceiver);
+                   Instantiate(votePrefab,dropPoint.position,dropPoint.rotation);
+
         }
     }
    void OnTriggerEnter2D(Collider2D other)
