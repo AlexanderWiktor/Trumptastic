@@ -309,6 +309,17 @@ foreach (GameObject go in objects)
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
         transform.localScale = theScale;
+    } 
+    void Teleport (float[] teleportStorage) 
+    {
+        int i =0;
+        float[] teleCord = new float[2];
+       foreach (float item in teleportStorage)
+       {
+          teleportStorage[i]=item;
+          i = 1;
+       }
+        transform.position = new Vector3(teleportStorage[0],teleportStorage[1],transform.position.z);
     }
 }
 
