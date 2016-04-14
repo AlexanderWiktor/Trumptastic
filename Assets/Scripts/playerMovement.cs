@@ -12,12 +12,18 @@ public class playerMovement : MonoBehaviour
     public float jumpforce;
     public float hitforce;
     public float minY;
+     public AudioSource[] sources = new AudioSource[1];
+ //public GameObject playlistObj;    
+
     //things for code
     double timestamp = 0.1;
     private bool isGrounded;
     private bool isJumping;
     private bool hasYkey;
     private bool onStairs;
+    //AudioSource
+     AudioSource jumpSound;
+
     //objects
     private Animator animator;
     private GameObject scoreObj;
@@ -33,7 +39,8 @@ public class playerMovement : MonoBehaviour
    private GameObject _stairs;
    private GameObject _sekret;
    private GameObject _springObj;
-    private AudioSource sources;
+   private GameObject _enemy;
+    
     //   private AudioSource pickupCoinSound;
     private bool facingRight = true;
 
@@ -56,7 +63,8 @@ public class playerMovement : MonoBehaviour
 	    diamObj = GameObject.FindGameObjectWithTag("Diamond");
         fireObj = GameObject.FindGameObjectWithTag("fire");
 	    obsObj = GameObject.FindGameObjectWithTag("ground");
-        sources = GetComponents<AudioSource>()[0];
+        sources = GetComponents<AudioSource>();
+        jumpSound = sources[2];
 	    _hearthObj = GameObject.FindGameObjectWithTag("hearth");
 	    _keyY = GameObject.FindGameObjectWithTag("keyY");
 	    _doorY = GameObject.FindGameObjectWithTag("doorY");
@@ -125,7 +133,7 @@ foreach (GameObject go in objects)
             {
                     animator.SetBool("IsJumping", true);
                     animator.SetBool("IsTired", false);
-                    //     jumpSound.Play();
+                  
                     GetComponent<Rigidbody2D>().velocity = new Vector2(0,0);
                 GetComponent<Rigidbody2D>().AddForce(new Vector2(0, jumpforce));
                 timestamp = Time.time + 0.1;
@@ -236,22 +244,16 @@ foreach (GameObject go in objects)
             lifeObj.GetComponent<TextMesh>().text = "Lives: " + life;
             isGrounded = true;
         }
-        if (other.gameObject.tag == "enemyL")
+        if (other.gameObject.tag == "enemy")
         {
             life--;
-            lifeObj.GetComponent<TextMesh>().text = "Lives: " + life;
-            isGrounded = true;
-        }
-         if (other.gameObject.tag == "enemyR")
-        {
-            life--;
-            lifeObj.GetComponent<TextMesh>().text = "Lives: " + life;
+        //    lifeObj.GetComponent<TextMesh>().text = "Lives: " + life;
             isGrounded = true;
         }
         if (other.gameObject.tag == "ground")
         {
             isGrounded = true;
-            sources.Play();
+            jumpSound.Play();
             isJumping = false;
         }
         if (other.gameObject.tag == "hearth")
