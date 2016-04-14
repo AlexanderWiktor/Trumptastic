@@ -8,7 +8,8 @@ private GameObject _bullet;
 public float speed;
 public float leftX;
 public float rightX;
-private enum Snailstate
+    public int life = 4;
+    private enum Snailstate
 {
  LEFT, RIGHT
 }
@@ -41,13 +42,16 @@ state = Snailstate.LEFT;
                 transform.eulerAngles = new Vector2(0, 0);
         }
 
-	
-	}
+        if (life <= 0)
+        {
+            Destroy(this.gameObject);
+        }
+    }
    void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.tag == "bullet")
         {
-            Destroy(this.gameObject);
+            life--;
             Debug.Log("I got Hit");
         }
 
